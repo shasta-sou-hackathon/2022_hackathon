@@ -11,9 +11,9 @@
 * **[SOU CS Club](https://sou.presence.io/organization/computer-science-club-2)**
 * **[Alan and Priscilla Oppenheimer Foundation](https://oppenheimerfoundation.org)**
 <p>
-    <img src='images/shasta-networks-logo.png' alt='Shasta Networks Logo' title='Shasta Networks Logo' width='111' />
-    <img src='images/sou-seal.png' data-canonical-src='https://upload.wikimedia.org/wikipedia/en/4/43/Souther_Oregon_University_seal.png' alt='Southern Oregon University Seal' title='Southern Oregon University Seal' width='111' />
-    <img src='images/a-poppenfoundlgoclr01.jpg' data-canonical-src='https://oppenheimerfoundation.org/uploads/1/0/8/4/108402803/published/a-poppenfoundlgoclr01.jpg' alt='Alan &amp; Priscilla Oppenheimer Foundation Logo' title='Alan &amp; Priscilla Oppenheimer Foundation Logo' width='111' />
+    <a href="https://shastanetworks.com"><img src='images/shasta-networks-logo.png' alt='Shasta Networks Logo' title='Shasta Networks Logo' width='111' /></a>
+    <a href="https://sou.presence.io/organization/computer-science-club-2"><img src='images/sou-seal.png' data-canonical-src='https://upload.wikimedia.org/wikipedia/en/4/43/Souther_Oregon_University_seal.png' alt='Southern Oregon University Seal' title='Southern Oregon University Seal' width='111' /></a>
+    <a href="https://oppenheimerfoundation.org"><img src='images/a-poppenfoundlgoclr01.jpg' data-canonical-src='https://oppenheimerfoundation.org/uploads/1/0/8/4/108402803/published/a-poppenfoundlgoclr01.jpg' alt='Alan &amp; Priscilla Oppenheimer Foundation Logo' title='Alan &amp; Priscilla Oppenheimer Foundation Logo' width='111' /></a>
 </p>
 
 ## Prerequisites
