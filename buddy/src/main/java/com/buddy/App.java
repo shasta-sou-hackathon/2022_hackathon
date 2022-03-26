@@ -20,9 +20,11 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text; 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * JavaFX App
+ * Contractor Buddy 
  */
 public class App extends Application {
 
@@ -38,23 +40,51 @@ public class App extends Application {
         grid.setPadding(new Insets(25, 25, 25, 25));
 
         // Creates Top title
-        Text scenetitle = new Text("Welcome");
+        Text scenetitle = new Text("Contactor Buddy");
         // Need to set font to avoid gibberish (Mac Issue?)
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(scenetitle, 0, 0, 2, 1);
         
-        // TODO - Loop geneates all the labels, textboxs, and out puts needed
+        /* 
+        Form Row Geneartion
+        */
+        // Inital rows lists
+        List<String> rowNames = new ArrayList<String>();
+        List<Label> rowLabels = new ArrayList<Label>();
+        List<TextField> rowTextFields = new ArrayList<TextField>();
 
-        // Creates label
-        Label userName = new Label("User Name:");
-        userName.setFont(Font.font("Tahoma", FontWeight.NORMAL, 12));
-        grid.add(userName, 0, 1);
+        // Add desired rows for the form
+        rowNames.add("Squares");
+        rowNames.add("Work Hours");
+        rowNames.add("Field");
 
-        // Creates text box for user to input into 
-        TextField userTextField = new TextField();
-        userTextField.setFont(Font.font("Tahoma", FontWeight.NORMAL, 12));
-        grid.add(userTextField, 1, 1);
+        // Loop throguh the row names and creates a form row for each
+        for (int i = 0; i < rowNames.size(); i++) {
+            /*
+            Label Creation
+            */
+            // Creates label to add to rowLabels to be used in the rest of the process
+            Label tmpL = new Label(rowNames.get(i) + ":");
+            // Add the label to the list
+            rowLabels.add(tmpL);
+            // Use the label in the list to generate the physical label
+            rowLabels.get(i).setFont(Font.font("Tahoma", FontWeight.NORMAL, 12));
+            grid.add(rowLabels.get(i), 0, i + 1);
+            
+            /*
+            Text Field Creation
+            */
+            // Similar as above, Creates textfield to add to rowTextFields to be used in the rest of the process
+            TextField tmpTF = new TextField();
+            // Add the text field to the list
+            rowTextFields.add(tmpTF);
 
+            rowTextFields.get(i).setFont(Font.font("Tahoma", FontWeight.NORMAL, 12));
+            grid.add(rowTextFields.get(i), 1, i + 1);
+        }
+
+
+        // Job Cost Generation
         // Button creations
         Button btn = new Button("Generate Job Cost");
         HBox hbBtn = new HBox(10);
@@ -74,11 +104,11 @@ public class App extends Application {
                 // Generates text to display once button is clicked 
                 actiontarget.setFill(Color.FIREBRICK);
                 actiontarget.setFont(Font.font("Tahoma", FontWeight.NORMAL, 12));
+
                 // Gets the inputed data
-                String tmp = userTextField.getText();
+                String tmp = rowTextFields.get(0).getText();
                 System.out.println(tmp);
                 actiontarget.setText(tmp);
-             
             }
         });
 
