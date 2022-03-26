@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.text.Font;
@@ -32,7 +33,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("JavaFX Welcome");
+        // Creates scene grid and pane title
+        primaryStage.setTitle("Contractor Buddy");
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
@@ -42,21 +44,26 @@ public class App extends Application {
         // Creates Top title
         Text scenetitle = new Text("Contactor Buddy");
         // Need to set font to avoid gibberish (Mac Issue?)
-        scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        scenetitle.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
         grid.add(scenetitle, 0, 0, 2, 1);
+
+        Text sceneSubTitle = new Text("Please fill in all fields. Insert all measurements in feet");
+        // Need to set font to avoid gibberish (Mac Issue?)
+        sceneSubTitle.setFont(Font.font("Tahoma", FontWeight.THIN, 14));
+        grid.add(sceneSubTitle, 0, 0, 2, 3);
         
         /* 
         Form Row Geneartion
         */
-        // Inital rows lists
+        // Inital rows lists, one for the row names, one for labels, and one for text fields
         List<String> rowNames = new ArrayList<String>();
         List<Label> rowLabels = new ArrayList<Label>();
         List<TextField> rowTextFields = new ArrayList<TextField>();
 
         // Add desired rows for the form
-        rowNames.add("Squares");
-        rowNames.add("Work Hours");
-        rowNames.add("Field");
+        rowNames.add("Square Footage"); rowNames.add("Hip"); rowNames.add("Ridge"); rowNames.add("Permitter"); 
+        rowNames.add("Pipes/Vents"); rowNames.add("Skylights"); rowNames.add("Chimmenys"); 
+        rowNames.add("1/4in Flashing"); rowNames.add("1/2in Flashing"); rowNames.add("1in flashing "); 
 
         // Loop throguh the row names and creates a form row for each
         for (int i = 0; i < rowNames.size(); i++) {
@@ -69,7 +76,7 @@ public class App extends Application {
             rowLabels.add(tmpL);
             // Use the label in the list to generate the physical label
             rowLabels.get(i).setFont(Font.font("Tahoma", FontWeight.NORMAL, 12));
-            grid.add(rowLabels.get(i), 0, i + 1);
+            grid.add(rowLabels.get(i), 0, i + 2);
             
             /*
             Text Field Creation
@@ -80,49 +87,99 @@ public class App extends Application {
             rowTextFields.add(tmpTF);
 
             rowTextFields.get(i).setFont(Font.font("Tahoma", FontWeight.NORMAL, 12));
-            grid.add(rowTextFields.get(i), 1, i + 1);
+            grid.add(rowTextFields.get(i), 1, i + 2);
         }
 
-
-        // Job Cost Generation
-        // Button creations
+        
+        /*
+        Job Cost Report Creation
+        */
+        // Creates a button labeled "Generate Job Cost"
         Button btn = new Button("Generate Job Cost");
         HBox hbBtn = new HBox(10);
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(btn);
         btn.setFont(Font.font("Tahoma", FontWeight.NORMAL, 12));
-        grid.add(hbBtn, 1, 4);
-
-        // Text control
+        grid.add(hbBtn, 1, rowNames.size() + 2);
+        /*// Text control for button
         final Text actiontarget = new Text();
-        grid.add(actiontarget, 1, 6);
+        grid.add(actiontarget, 1, rowNames.size() + 1); */
 
-        // Event when button is hit, this is where the job cost will be generated
+
+        // Button event, triggers job cost generation
         btn.setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                // Generates text to display once button is clicked 
-                actiontarget.setFill(Color.FIREBRICK);
-                actiontarget.setFont(Font.font("Tahoma", FontWeight.NORMAL, 12));
-
-                // Gets the inputed data
-                String tmp = rowTextFields.get(0).getText();
-                System.out.println(tmp);
-                actiontarget.setText(tmp);
+                /*
+                Data collection
+                */
+                List<Integer> data = new ArrayList<Integer>();
+                for (int i = 0; i < rowNames.size(); i++) {
+                    // Gets the inputed data, add it to the data list
+                    data.add(Integer.parseInt(rowTextFields.get(i).getText()));
+                }
+                
+				/*
+                Job Cost Creation - Generates the job cost report using the listed data
+                */
+				Stage jobCostWindow = new Stage();
+                next(jobCostWindow, data);
+				
             }
         });
 
         // Generates the scene (pop-up window)
-        Scene scene = new Scene(grid, 300, 275);
+        Scene scene = new Scene(grid, 400, 450);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
 
+    public void next(Stage jobCostStage, List<Integer> data) { 
+        // Creates scene grid
+        GridPane grid2 = new GridPane();
+        grid2.setAlignment(Pos.CENTER);
+        grid2.setHgap(10);
+        grid2.setVgap(10);
+        grid2.setPadding(new Insets(25, 25, 25, 25));
+
+        // Adds window title
+        Text scenetitle = new Text("Job Cost Report");
+        scenetitle.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
+        grid2.add(scenetitle, 0, 0, 2, 1);
+
+        // Displays Total square footage
+        int squareFootage = data.get(0);
+        Label squareFootageL = new Label("Total Square Footage: " + squareFootage);
+        squareFootageL.setFont(Font.font("Tahoma", FontWeight.NORMAL, 12));
+        grid2.add(squareFootageL, 0, 3);
+
+        // Caluates and displays numnber of squares
+        double numSquares = squareFootage / 100;
+        Label numSquaresL = new Label("Number of Squares: " + numSquares); 
+        numSquaresL.setFont(Font.font("Tahoma", FontWeight.NORMAL, 12));
+        grid2.add(numSquaresL, 0, 4);
+
+         // Caluates and displays cost of plywood by square
+         double costForPlywood = numSquares * 110;
+         Label costSquaresL = new Label("Plywood Cost: " + costForPlywood); 
+         costSquaresL.setFont(Font.font("Tahoma", FontWeight.NORMAL, 12));
+         grid2.add(costSquaresL, 0, 5);
+
         
 
 
-    // Autogenerated below, does stuff to run, forsure does smth yup
+        // Sets scene size, title, and displays the scene
+		Scene jobCostScene = new Scene(grid2, 300, 450);
+        jobCostStage.setScene(jobCostScene);
+        jobCostStage.setTitle("Job Cost Report");
+		jobCostStage.show(); 
+    }
+
+    // Note: There is a lot of "junk" code that is an artifcate of creating a maven project and is unused
+
+
+    // Below is Autogenerated, does stuff to run, forsure does smth...yup
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
